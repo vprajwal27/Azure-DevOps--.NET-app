@@ -1,1 +1,6 @@
-Console.WriteLine(HelloPrajwal.Greeting.Message);
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+app.MapGet("/", () => HelloPrajwal.Greeting.Message);
+
+app.Run();
