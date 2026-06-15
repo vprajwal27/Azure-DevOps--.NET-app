@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - Program.cs
+      - Greeting.cs
+      - HelloPrajwal.csproj
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'
+
+- script: dotnet restore HelloPrajwal.csproj
+  displayName: 'Restore dependencies'
+
+- script: dotnet build HelloPrajwal.csproj --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build application'
+
+- script: dotnet publish HelloPrajwal.csproj --configuration $(buildConfiguration) --no-build --output $(Build.ArtifactStagingDirectory)/publish
+  displayName: 'Publish application'
+
+- task: ArchiveFiles@2
+  displayName: 'Create deployment package'
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/publish'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
+    replaceExistingArchive: true
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish artifact'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/app.zip'
+    artifact: 'dot-net-artifact'
