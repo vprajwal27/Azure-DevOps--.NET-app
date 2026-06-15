@@ -1,0 +1,56 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: ciPipeline
+      source: 'vprajwal27.Azure-DevOps--.NET-app'
+      trigger:
+        branches:
+          include:
+            - main
+
+stages:
+- stage: DeployDev
+  displayName: 'Deploy to Dev'
+  jobs:
+  - deployment: DeployDevJob
+    displayName: 'Deploy to Dev App Service'
+    environment: 'Dev'
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ciPipeline
+            artifact: dot-net-artifact
+          - task: AzureWebApp@1
+            displayName: 'Deploy to dev-dot-net'
+            inputs:
+              azureSubscription: 'ARM-svc-connection'
+              appType: 'webAppLinux'
+              appName: 'dev-dot-net'
+              package: '$(Pipeline.Workspace)/ciPipeline/dot-net-artifact/app.zip'
+
+- stage: DeployProd
+  displayName: 'Deploy to Production'
+  dependsOn: DeployDev
+  jobs:
+  - deployment: DeployProdJob
+    displayName: 'Deploy to prod-dot-net'
+    environment: 'Production'
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: ciPipeline
+            artifact: dot-net-artifact
+          - task: AzureWebApp@1
+            displayName: 'Deploy to prod-dot-net'
+            inputs:
+              azureSubscription: 'ARM-svc-connection'
+              appType: 'webAppLinux'
+              appName: 'prod-dot-net'
+              package: '$(Pipeline.Workspace)/ciPipeline/dot-net-artifact/app.zip'
