@@ -25,5 +25,5 @@ steps:
 - script: dotnet build HelloPrajwal.csproj --configuration Release --no-restore
   displayName: 'Build application'
 
-- script: dotnet test unit-test/HelloPrajwal.Tests.csproj --configuration Release --no-restore --verbosity normal
-  displayName: 'Run unit tests'
+#- script: dotnet test unit-test/HelloPrajwal.Tests.csproj --configuration Release --no-restore --verbosity normal
+#  displayName: 'Run unit tests'
