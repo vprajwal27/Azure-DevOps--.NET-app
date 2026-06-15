@@ -15,7 +15,7 @@ stages:
   jobs:
   - deployment: DeployDevJob
     displayName: 'Deploy to Dev App Service'
-    environment: 'Dev'
+    environment: 'dev'
     pool:
       vmImage: ubuntu-latest
     strategy:
@@ -38,7 +38,7 @@ stages:
   jobs:
   - deployment: DeployProdJob
     displayName: 'Deploy to prod-dot-net'
-    environment: 'Production'
+    environment: 'prod'
     pool:
       vmImage: ubuntu-latest
     strategy:
