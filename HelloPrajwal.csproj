@@ -8,4 +8,8 @@
   <ItemGroup>
     <Compile Remove="unit-test\**\*.cs" />
   </ItemGroup>
+<<<<<<< HEAD
 </Project>
+=======
+</Project>
+>>>>>>> cd7543e333b5351b4c0cfa6404a92502defc8187
