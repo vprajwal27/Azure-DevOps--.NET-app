@@ -7,7 +7,6 @@ trigger:
       - Program.cs
       - Greeting.cs
       - HelloPrajwal.csproj
-      - unit-test/**
 
 pool:
   vmImage: ubuntu-latest
