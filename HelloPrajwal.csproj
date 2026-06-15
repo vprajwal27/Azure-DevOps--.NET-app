@@ -5,3 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="unit-test\**\*.cs" />
+  </ItemGroup>
+</Project>
