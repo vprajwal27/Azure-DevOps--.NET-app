@@ -1,1 +1,1 @@
-Console.WriteLine("Hello world from Prajwal!");
+Console.WriteLine(HelloPrajwal.Greeting.Message);
